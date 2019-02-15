@@ -1,0 +1,5 @@
+{
+  "build": "Build Customized Assets",
+  "build_description": "Compile the necessary metadata and static assets to apply customizations",
+  "build_success": "You must Rebuild & Restart NodeBB for the changes to take effect"
+}

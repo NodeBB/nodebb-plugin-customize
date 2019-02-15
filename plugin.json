@@ -1,0 +1,16 @@
+{
+  "library": "build/lib",
+  "acpLess": [
+    "public/style.less"
+  ],
+  "acpScripts": [
+    "build/public/lib/admin.js"
+  ],
+  "defaultLang": "en-US",
+  "languages": "build/public/language",
+  "templates": "build/public/templates",
+  "hooks": [
+    { "hook": "static:app.load", "method": "init" },
+    { "hook": "filter:admin.header.build", "method": "adminMenu" }
+  ]
+}

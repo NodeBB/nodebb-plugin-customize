@@ -1,0 +1,19 @@
+{
+  "include": [
+    "./lib/*.ts"
+  ],
+  "compilerOptions": {
+    "outDir": "build/lib",
+    "lib": ["es2017"],
+    "target": "es2017",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "strict": true,
+    "sourceMap": true,
+    "alwaysStrict": true,
+    "typeRoots": []
+  },
+  "typeAcquisition": {
+    "enable": false
+  }
+}

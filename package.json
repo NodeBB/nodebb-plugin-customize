@@ -1,0 +1,48 @@
+{
+  "name": "nodebb-plugin-customize",
+  "version": "1.0.0",
+  "description": "Customize NodeBB translations and templates",
+  "main": "build/lib",
+  "author": "Peter Jaszkowiak <p.jaszkow@gmail.com> (https://github.com/pitaj)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NodeBB/nodebb-plugin-customize.git"
+  },
+  "nbbpm": {
+    "compatibility": "^1.11.0"
+  },
+  "keywords": [
+    "nodebb",
+    "plugin",
+    "customize",
+    "translation",
+    "template"
+  ],
+  "dependencies": {
+    "diff": "^4.0.1",
+    "fs-extra": "^7.0.0",
+    "lodash": "^4.17.11"
+  },
+  "devDependencies": {
+    "@types/bootstrap": "^3.3.36",
+    "@types/diff": "^4.0.1",
+    "@types/express": "^4.16.0",
+    "@types/fs-extra": "^5.0.4",
+    "@types/jquery": "^3.3.29",
+    "@types/lodash": "^4.14.116",
+    "@types/nconf": "^0.0.37",
+    "@types/node": "^10.12.21",
+    "@typescript-eslint/eslint-plugin": "^1.2.0",
+    "@typescript-eslint/parser": "^1.2.0",
+    "eslint": "^5.13.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.16.0",
+    "typescript": "^3.3.1"
+  },
+  "scripts": {
+    "lint": "eslint lib/* && eslint public/lib/*",
+    "compile": "node copy-sources && tsc -p . && tsc -p public",
+    "prepare": "rm -r build; npm run compile"
+  }
+}

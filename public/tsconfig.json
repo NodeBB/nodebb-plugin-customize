@@ -1,0 +1,23 @@
+{
+  "include": [
+    "lib/index.ts",
+    "lib/*.d.ts",
+    "../lib/types.d.ts"
+  ],
+  "compilerOptions": {
+    "outFile": "../build/public/lib/admin.js",
+    "lib": ["es2016", "dom", "es2015.promise", "es2015.iterable"],
+    "target": "es2016",
+    "module": "amd",
+    "strict": true,
+    "sourceMap": true,
+    "alwaysStrict": true,
+    "types": [
+      "jquery",
+      "bootstrap"
+    ]
+  },
+  "typeAcquisition": {
+    "enable": false
+  }
+}
