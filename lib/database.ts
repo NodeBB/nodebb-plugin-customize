@@ -45,8 +45,6 @@ interface TranslationHash {
 // translation id looks like `<language>:<namespace>:<key>`
 
 export async function getTranslations(): Promise<Translation[]> {
-  console.log('here5');
-
   const ids = await getSortedSetRange(translationsSet, 0, -1);
   const [hashes, currentValues]: [TranslationHash[], string[]] = await Promise.all([
     getObjects<TranslationHash>(ids.map(translationHashKey)),
@@ -80,8 +78,8 @@ export async function editTranslation({
       key,
       old,
       value,
-    }).then(() => console.log('here1')),
-    sortedSetAdd(translationsSet, Date.now(), id).then(() => console.log('here2')),
+    }),
+    sortedSetAdd(translationsSet, Date.now(), id),
   ]);
 }
 

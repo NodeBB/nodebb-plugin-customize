@@ -69,7 +69,6 @@ const adminEditTranslation: RequestHandler = (req, res, next): void => {
   const translation: Translation = req.body.translation;
 
   db.editTranslation(translation)
-    .then(() => console.log('here3'))
     .then(db.getTranslations)
     .then((translations) => {
       res.json({
