@@ -84,7 +84,7 @@
         </td>
         <td>
           <button class="btn btn-primary" id="template-edit-open" data-toggle="modal" data-target="#template-edit-modal"><i class="fa fa-fw fa-pencil"></i></a>
-          <button class="btn btn-submit" id="template-edit-submit"><i class="fa fa-fw fa-check"></i></button>
+          <button class="btn btn-success" id="template-edit-submit"><i class="fa fa-fw fa-check"></i></button>
         </td>
       </tr>
     </tfoot>
