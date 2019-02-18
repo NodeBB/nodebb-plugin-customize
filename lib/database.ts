@@ -3,6 +3,7 @@
 import { promisify } from 'util';
 import { join } from 'path';
 import { readJson, readFile } from 'fs-extra';
+import { applyPatch } from 'diff';
 
 if (!require.main) { throw Error('[plugin-customize] `require.main` is undefined'); }
 const db = require.main.require('./src/database');
@@ -94,7 +95,6 @@ interface TemplateHash {
   path: string;
   diff: string;
   old: string;
-  value: string;
 }
 
 export async function getTemplates(): Promise<Template[]> {
@@ -108,8 +108,9 @@ export async function getTemplates(): Promise<Template[]> {
   ]);
 
   return currentValues.map((current, i) => ({
-    current,
     ...hashes[i],
+    path: paths[i],
+    value: applyPatch(hashes[i].old, hashes[i].diff),
   }));
 }
 
@@ -117,14 +118,12 @@ export async function editTemplate({
   path,
   diff,
   old,
-  value,
 }: Template): Promise<void> {
   await Promise.all([
     setObject<TemplateHash>(templateHashKey(path), {
       path,
       diff,
       old,
-      value,
     }),
     sortedSetAdd(templatesSet, Date.now(), path),
   ]).then(() => {});

@@ -2,7 +2,7 @@
 /// <amd-module name="admin/plugins/customize"/>
 
 import './translations';
-// import './templates';
+import './templates';
 
 $('#build').click(() => {
   Promise.resolve(

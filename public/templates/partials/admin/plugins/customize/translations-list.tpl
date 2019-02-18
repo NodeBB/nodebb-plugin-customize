@@ -5,8 +5,8 @@
   data-language="{./language}"
   data-namespace="{./namespace}"
   data-key="{./key}"
-  data-old="{./old}"
-  data-value="{./value}"
+  data-old="{escape(./old)}"
+  data-value="{escape(./value)}"
 >
   <td>{./language}</td>
   <td>{./namespace}</td>

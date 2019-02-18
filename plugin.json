@@ -6,6 +6,9 @@
   "acpScripts": [
     "build/public/lib/admin.js"
   ],
+  "modules": {
+    "diff.js": "node_modules/diff/dist/diff.js"
+  },
   "defaultLang": "en-US",
   "languages": "build/public/language",
   "templates": "build/public/templates",

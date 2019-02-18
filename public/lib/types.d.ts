@@ -40,9 +40,15 @@ declare module 'translator' {
     public getTranslation(namespace: string): Promise<TranslationMap>;
 
     public getTranslation(namespace: string, key?: string): Promise<string>;
+
+    public static unescape(escaped: string): string;
   }
   export function translate(input: string, callback: Callback<string>): void;
 }
 declare module 'benchpress' {
   export function render(template: string, data: any): Promise<string>;
+}
+declare module 'ace/ace' {
+  const Ace: AceAjax.Ace;
+  export = Ace;
 }

@@ -1,30 +1,30 @@
 import { Translator } from 'translator';
 import * as Benchpress from 'benchpress';
 
-const success = (): void => window.app.alertSuccess();
-const error = (err: Error): void => {
-  window.app.alertError(err);
-  setTimeout(() => { throw err; }, 0);
+import {
+  setOptions,
+  success,
+  error,
+  confirm,
+  requestDelete,
+  requestPost,
+} from './shared';
+
+const edit = {
+  parent: $('#translation-edit'),
+  language: $('#translation-edit-language'),
+  namespace: $('#translation-edit-namespace'),
+  key: $('#translation-edit-key'),
+  value: $('#translation-edit-value'),
+  old: $('#translation-edit-original'),
+  submit: $('#translation-edit-submit'),
 };
 
-function setOptions(select: JQuery, options: {
-  value: string;
-  text: string;
-}[]): void {
-  select.empty();
-
-  options.forEach(({ value, text }) => {
-    $('<option>')
-      .attr({ value })
-      .text(text)
-      .appendTo(select);
-  });
-}
+const list = $('#translations-list');
 
 function updateKeys(): Promise<void> {
-  const lang = $('#translation-edit-language').val() as string;
-  const namespace = $('#translation-edit-namespace').val() as string | null;
-  const elem = $('#translation-edit-key');
+  const lang = edit.language.val() as string;
+  const namespace = edit.namespace.val() as string | null;
 
   if (!namespace) {
     return Promise.resolve();
@@ -36,14 +36,13 @@ function updateKeys(): Promise<void> {
         value: key,
         text: key,
       }));
-      setOptions(elem, keys);
-      elem.prepend('<option value="">---</option>');
+      setOptions(edit.key, keys);
+      edit.key.prepend('<option value="">---</option>');
     });
 }
 
 function updateOld(): Promise<void> {
-  const row = $('#translation-edit');
-  const origData: Translation | null = row.data().translation;
+  const origData: Translation | null = edit.parent.data().translation;
 
   const lang = $('#translation-edit-language').val() as string;
   const namespace = $('#translation-edit-namespace').val() as string | null;
@@ -59,26 +58,25 @@ function updateOld(): Promise<void> {
     namespace === origData.namespace &&
     key === origData.key
   ) {
-    $('#translation-edit-original').text(origData.old);
+    edit.old.text(origData.old);
     return Promise.resolve();
   }
 
   return Translator.create(lang).getTranslation(namespace, key)
     .then((old) => {
-      const editor = $('#translation-edit-value');
-      if (!editor.val() || editor.val() === $('#translation-edit-original').text()) {
+      const editor = edit.value;
+      if (!editor.val() || editor.val() === edit.old.text()) {
         editor.val(old);
       }
 
-      $('#translation-edit-original').text(old);
+      edit.old.text(old);
     });
 }
 
-$('#translation-edit-language, #translation-edit-namespace')
+$([edit.language[0], edit.namespace[0]])
   .change(() => updateKeys().then(updateOld).catch(error));
 
-$('#translation-edit-key')
-  .change(() => updateOld().catch(error));
+edit.key.change(() => updateOld().catch(error));
 
 $(document).ready(() => updateKeys().then(updateOld).catch(error));
 
@@ -86,34 +84,25 @@ interface TranslationsListResponse {
   translations: Translation[];
 }
 
-function requestDelete(id: string): Promise<TranslationsListResponse> {
-  return Promise.resolve($.ajax({
-    method: 'DELETE',
-    url: `${window.config.relative_path}/api/admin/plugins/customize/delete/translation/`,
-    data: JSON.stringify({
-      translation: id,
-    }),
-    processData: false,
-    contentType: 'application/json',
-  }));
+function removeTranslation(id: string): Promise<TranslationsListResponse> {
+  return requestDelete('/api/admin/plugins/customize/delete/translation/', {
+    translation: id,
+  });
 }
 
 function updateList({ translations }: TranslationsListResponse): Promise<void> {
   window.ajaxify.data.translations = translations;
+  edit.parent.data({
+    template: null,
+  });
 
   return Benchpress.render('partials/admin/plugins/customize/translations-list', {
     translations,
   })
     .then(html => Translator.create().translate(html))
     .then((html) => {
-      $('#translations-list').html(html);
+      list.html(html);
     });
-}
-
-function confirm(message: string): Promise<boolean> {
-  return new Promise(
-    resolve => window.bootbox.confirm(message, resolve)
-  );
 }
 
 function deleteEntry(elem: JQuery): Promise<void> {
@@ -129,16 +118,15 @@ function deleteEntry(elem: JQuery): Promise<void> {
       const elemId = elem.attr('id') as string;
       // skip past "translation--"
       const id = elemId.slice(13);
-      return requestDelete(id)
+      return removeTranslation(id)
         .then(updateList)
         .then(success);
     });
 }
 
-$('#translations-list')
-  .on('click', '.delete', e => deleteEntry(
-    $(e.target).closest('.translation')
-  ).catch(error));
+list.on('click', '.delete', e => deleteEntry(
+  $(e.target).closest('.translation')
+).catch(error));
 
 function editEntry(elem: JQuery): Promise<void> {
   elem.addClass('active');
@@ -159,23 +147,22 @@ function editEntry(elem: JQuery): Promise<void> {
     });
 }
 
-$('#translations-list')
-  .on('click', '.edit', e => editEntry(
-    $(e.target).closest('.translation')
-  ).catch(error));
+list.on('click', '.edit', e => editEntry(
+  $(e.target).closest('.translation')
+).catch(error));
 
 function submit(): Promise<void> {
-  const language = $('#translation-edit-language').val() as string | null;
-  const namespace = $('#translation-edit-namespace').val() as string | null;
-  const key = $('#translation-edit-key').val() as string | null;
-  const old = $('#translation-edit-original').text() as string | null;
-  const value = $('#translation-edit-value').val() as string | null;
+  const language = edit.language.val() as string | null;
+  const namespace = edit.namespace.val() as string | null;
+  const key = edit.key.val() as string | null;
+  const old = edit.old.text() as string | null;
+  const value = edit.value.val() as string | null;
 
   if (!language || !namespace || !key || !old || !value) {
     return Promise.resolve();
   }
 
-  const oldData: Translation | null = $('#translation-edit').data().translation;
+  const oldData: Translation | null = edit.parent.data().translation;
 
   let before: Promise<TranslationsListResponse | void> = Promise.resolve();
   if (oldData && (
@@ -183,7 +170,7 @@ function submit(): Promise<void> {
     oldData.namespace !== namespace ||
     oldData.key !== key
   )) {
-    before = requestDelete(`${oldData.language}:${oldData.namespace}:${oldData.key}`);
+    before = removeTranslation(`${oldData.language}:${oldData.namespace}:${oldData.key}`);
   }
 
   const data: Translation = {
@@ -195,21 +182,23 @@ function submit(): Promise<void> {
   };
 
   return before
-    .then(() => $.ajax({
-      method: 'POST',
-      url: `${window.config.relative_path}/api/admin/plugins/customize/edit/translation`,
-      data: JSON.stringify({ translation: data }),
-      processData: false,
-      contentType: 'application/json',
+    .then(() => requestPost<
+      { translation: Translation },
+      TranslationsListResponse
+    >('/api/admin/plugins/customize/edit/translation', {
+      translation: data,
     }))
     .then(updateList)
     .then(() => {
-      $('#translation-edit-language').val(window.config.userLang);
-      $('#translation-edit-namespace').val('');
-      $('#translation-edit-key').val('');
-      $('#translation-edit-original').text('');
-      $('#translation-edit-value').val('');
+      edit.language.val(window.config.userLang);
+      edit.namespace.val('');
+      edit.key.val('');
+      edit.old.text('');
+      edit.value.val('');
+      edit.parent.data({
+        template: null,
+      });
     });
 }
 
-$('#translation-edit-submit').click(() => submit().then(success, error));
+edit.submit.click(() => submit().then(success, error));
