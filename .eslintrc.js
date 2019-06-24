@@ -22,6 +22,7 @@ module.exports = {
       consistent: true
     }],
     '@typescript-eslint/indent': ['error', 2],
+    '@typescript-eslint/explicit-function-return-type': 'off'
   },
 };
   

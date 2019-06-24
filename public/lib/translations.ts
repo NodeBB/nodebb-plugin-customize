@@ -182,12 +182,10 @@ function submit(): Promise<void> {
   };
 
   return before
-    .then(() => requestPost<
-      { translation: Translation },
-      TranslationsListResponse
-    >('/api/admin/plugins/customize/edit/translation', {
-      translation: data,
-    }))
+    .then(() => requestPost<{ translation: Translation }, TranslationsListResponse>(
+      '/api/admin/plugins/customize/edit/translation',
+      { translation: data }
+    ))
     .then(updateList)
     .then(() => {
       edit.language.val(window.config.userLang);

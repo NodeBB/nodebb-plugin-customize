@@ -197,12 +197,10 @@ function submit(): Promise<void> {
   };
 
   return before
-    .then(() => requestPost<
-      { template: Template },
-      TemplatesListResponse
-    >('/api/admin/plugins/customize/edit/template', {
-      template: data,
-    }))
+    .then(() => requestPost<{ template: Template }, TemplatesListResponse>(
+      '/api/admin/plugins/customize/edit/template',
+      { template: data }
+    ))
     .then(updateList)
     .then(() => {
       edit.path.val('');
