@@ -14,6 +14,7 @@ module.exports = {
     }],
     'import/no-unresolved': 'off',
     'import/prefer-default-export': 'off',
+    'import/extensions': 'off',
     'no-return-await': 'off',
     'operator-linebreak': ['error', 'after'],
     'object-curly-newline': ['error', {
@@ -25,4 +26,3 @@ module.exports = {
     '@typescript-eslint/explicit-function-return-type': 'off'
   },
 };
-  

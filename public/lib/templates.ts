@@ -99,10 +99,8 @@ function updateList({ templates }: TemplatesListResponse): Promise<void> {
   return Benchpress.render('partials/admin/plugins/customize/templates-list', {
     templates,
   })
-    .then(html => Translator.create().translate(html))
-    .then((html) => {
-      list.html(html);
-    });
+    .then((html) => Translator.create().translate(html))
+    .then((html) => { list.html(html); });
 }
 
 function deleteEntry(elem: JQuery): Promise<void> {
@@ -122,7 +120,7 @@ function deleteEntry(elem: JQuery): Promise<void> {
     });
 }
 
-list.on('click', '.delete', e => deleteEntry(
+list.on('click', '.delete', (e) => deleteEntry(
   $(e.target).closest('.template')
 ).catch(error));
 
@@ -144,7 +142,7 @@ function editEntry(elem: JQuery): void {
   edit.diff.text(template.diff);
 }
 
-list.on('click', '.edit', e => editEntry(
+list.on('click', '.edit', (e) => editEntry(
   $(e.target).closest('.template')
 ));
 

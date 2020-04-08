@@ -41,7 +41,7 @@ export function requestPost<A, B>(path: string, data: A): Promise<B> {
 
 export function confirm(message: string): Promise<boolean> {
   return new Promise(
-    resolve => window.bootbox.confirm(message, resolve)
+    (resolve) => window.bootbox.confirm(message, resolve)
   );
 }
 

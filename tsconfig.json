@@ -11,7 +11,10 @@
     "strict": true,
     "sourceMap": true,
     "alwaysStrict": true,
-    "typeRoots": []
+    "typeRoots": [],
+    "types": [
+      "node"
+    ]
   },
   "typeAcquisition": {
     "enable": false

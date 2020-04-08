@@ -126,12 +126,12 @@ export async function editTemplate({
       old,
     }),
     sortedSetAdd(templatesSet, Date.now(), path),
-  ]).then(() => {});
+  ]);
 }
 
 export async function removeTemplate(path: string): Promise<void> {
   await Promise.all([
     remove(templateHashKey(path)),
     sortedSetRemove(templatesSet, path),
-  ]).then(() => {});
+  ]);
 }

@@ -51,9 +51,9 @@ async function listTemplates(): Promise<string[]> {
   const templates = await walk(viewsDir);
 
   templateCache = templates
-    .filter(path => path.endsWith('.tpl'))
+    .filter((path) => path.endsWith('.tpl'))
     .map(
-      path => relative(viewsDir, path).split(/\/\\/).join('/')
+      (path) => relative(viewsDir, path).split(/\/\\/).join('/')
     );
   return templateCache;
 }
@@ -77,7 +77,7 @@ const renderAdmin: RequestHandler = (req, res, next): void => {
     ]) => {
       res.render('admin/plugins/customize', {
         version,
-        templates: templates.map(x => ({
+        templates: templates.map((x) => ({
           path: x.path,
           json: escape(JSON.stringify(x)),
           diff: escape(x.diff),
@@ -88,16 +88,16 @@ const renderAdmin: RequestHandler = (req, res, next): void => {
           name,
           selected: code === userLang,
         })),
-        namespaces: namespaces.map(name => ({ name })),
+        namespaces: namespaces.map((name) => ({ name })),
         templatePaths,
       });
     })
-    .catch(err => next(err));
+    .catch((err) => next(err));
 };
 const adminBuild: RequestHandler = (req, res, next): void => {
   build().then(
     () => res.send('OK'),
-    err => next(err)
+    (err) => next(err)
   );
 };
 
@@ -111,7 +111,7 @@ const adminEditTranslation: RequestHandler = (req, res, next): void => {
         translations,
       });
     })
-    .catch(err => next(err));
+    .catch((err) => next(err));
 };
 const adminRemoveTranslation: RequestHandler = (req, res, next): void => {
   db.removeTranslation(req.body.translation)
@@ -121,7 +121,7 @@ const adminRemoveTranslation: RequestHandler = (req, res, next): void => {
         translations,
       });
     })
-    .catch(err => next(err));
+    .catch((err) => next(err));
 };
 
 const adminEditTemplate: RequestHandler = (req, res, next): void => {
@@ -131,28 +131,28 @@ const adminEditTemplate: RequestHandler = (req, res, next): void => {
     .then(db.getTemplates)
     .then((templates) => {
       res.json({
-        templates: templates.map(x => ({
+        templates: templates.map((x) => ({
           path: x.path,
           json: escape(JSON.stringify(x)),
           diff: escape(x.diff),
         })),
       });
     })
-    .catch(err => next(err));
+    .catch((err) => next(err));
 };
 const adminRemoveTemplate: RequestHandler = (req, res, next): void => {
   db.removeTemplate(req.body.template)
     .then(db.getTemplates)
     .then((templates) => {
       res.json({
-        templates: templates.map(x => ({
+        templates: templates.map((x) => ({
           path: x.path,
           json: escape(JSON.stringify(x)),
           diff: escape(x.diff),
         })),
       });
     })
-    .catch(err => next(err));
+    .catch((err) => next(err));
 };
 
 export default function controllers({ router, middleware }: AppParams): void {

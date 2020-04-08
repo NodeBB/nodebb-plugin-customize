@@ -32,7 +32,7 @@ function updateKeys(): Promise<void> {
 
   return Translator.create(lang).getTranslation(namespace)
     .then((translationMap) => {
-      const keys = Object.keys(translationMap).map(key => ({
+      const keys = Object.keys(translationMap).map((key) => ({
         value: key,
         text: key,
       }));
@@ -99,10 +99,8 @@ function updateList({ translations }: TranslationsListResponse): Promise<void> {
   return Benchpress.render('partials/admin/plugins/customize/translations-list', {
     translations,
   })
-    .then(html => Translator.create().translate(html))
-    .then((html) => {
-      list.html(html);
-    });
+    .then((html) => Translator.create().translate(html))
+    .then((html) => { list.html(html); });
 }
 
 function deleteEntry(elem: JQuery): Promise<void> {
@@ -124,7 +122,7 @@ function deleteEntry(elem: JQuery): Promise<void> {
     });
 }
 
-list.on('click', '.delete', e => deleteEntry(
+list.on('click', '.delete', (e) => deleteEntry(
   $(e.target).closest('.translation')
 ).catch(error));
 
@@ -147,7 +145,7 @@ function editEntry(elem: JQuery): Promise<void> {
     });
 }
 
-list.on('click', '.edit', e => editEntry(
+list.on('click', '.edit', (e) => editEntry(
   $(e.target).closest('.translation')
 ).catch(error));
 

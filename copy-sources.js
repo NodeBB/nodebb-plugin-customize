@@ -1,7 +1,6 @@
 const {
   copy,
   mkdirp,
-  remove,
 } = require('fs-extra');
 const { join } = require('path');
 
@@ -15,7 +14,7 @@ async function copySources() {
     mkdirp(translationsDir),
     mkdirp(templatesDir),
   ]);
-  
+
   await Promise.all([
     copy(translationsSrcDir, translationsDir),
     copy(templatesSrcDir, templatesDir),
@@ -23,4 +22,4 @@ async function copySources() {
 }
 
 copySources()
-  .catch(err => process.nextTick(() => { throw err; }));
+  .catch((err) => process.nextTick(() => { throw err; }));

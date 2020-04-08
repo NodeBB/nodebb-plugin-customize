@@ -56,7 +56,7 @@ export async function build(): Promise<void> {
 
   const translationWrites = flatMap(
     Object.keys(translationTree),
-    language => flatMap(
+    (language) => flatMap(
       Object.keys(translationTree[language]),
       async (namespace) => {
         const path = join(translationsDir, language, `${namespace}.json`);
