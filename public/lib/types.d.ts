@@ -52,3 +52,11 @@ declare module 'ace/ace' {
   const Ace: AceAjax.Ace;
   export = Ace;
 }
+
+declare module 'api' {
+  export function get(route: string, payload: NonNullable<unknown>): Promise<any>;
+  export function head(route: string, payload: NonNullable<unknown>): Promise<any>;
+  export function post(route: string, payload: NonNullable<unknown>): Promise<any>;
+  export function put(route: string, payload: NonNullable<unknown>): Promise<any>;
+  export function del(route: string, payload: NonNullable<unknown>): Promise<any>;
+}

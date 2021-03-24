@@ -1,13 +1,12 @@
 import { Translator } from 'translator';
 import * as Benchpress from 'benchpress';
+import * as api from 'api';
 
 import {
   setOptions,
   success,
   error,
   confirm,
-  requestDelete,
-  requestPost,
 } from './shared';
 
 const edit = {
@@ -85,7 +84,7 @@ interface TranslationsListResponse {
 }
 
 function removeTranslation(id: string): Promise<TranslationsListResponse> {
-  return requestDelete('/api/admin/plugins/customize/delete/translation/', {
+  return api.del('/admin/plugins/customize/delete/translation', {
     translation: id,
   });
 }
@@ -180,10 +179,9 @@ function submit(): Promise<void> {
   };
 
   return before
-    .then(() => requestPost<{ translation: Translation }, TranslationsListResponse>(
-      '/api/admin/plugins/customize/edit/translation',
-      { translation: data }
-    ))
+    .then(() => api.put('/admin/plugins/customize/edit/translation', {
+      translation: data,
+    }))
     .then(updateList)
     .then(() => {
       edit.language.val(window.config.userLang);

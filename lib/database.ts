@@ -52,7 +52,7 @@ export async function getTranslations(): Promise<Translation[]> {
     Promise.all(ids.map(async (id) => {
       const [language, namespace, key] = id.split(':');
       const filePath = join(languagesDir, language, `${namespace}.json`);
-      const translations: { [key: string]: string } = await readJson(filePath);
+      const translations: { [key: string]: string } = await readJson(filePath).catch(() => ({}));
       return translations[key] || '';
     })),
   ]);

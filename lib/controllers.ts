@@ -13,6 +13,8 @@ const Languages = require.main.require('./src/languages');
 const File = require.main.require('./src/file');
 const Translator = require.main.require('./src/translator');
 const Utils = require.main.require('./src/utils');
+const { setupApiRoute, setupAdminPageRoute } = require.main.require('./src/routes/helpers');
+const { formatApiResponse } = require.main.require('./src/controllers/helpers');
 
 const escape = (dirty: string): string => Translator.escape(Utils.escapeHTML(dirty));
 
@@ -58,112 +60,90 @@ async function listTemplates(): Promise<string[]> {
   return templateCache;
 }
 
-const renderAdmin: RequestHandler = (req, res, next): void => {
-  Promise.all([
+const renderAdmin: RequestHandler = async (req, res) => {
+  const [
+    templates,
+    translations,
+    languages,
+    userLang,
+    namespaces,
+    templatePaths,
+  ] = await Promise.all([
     db.getTemplates(),
     db.getTranslations(),
     listLanguages(),
-    getSettings(req.uid).then(({ userLang }) => userLang),
+    getSettings(req.uid).then((data) => data.userLang),
     listNamespaces(),
     listTemplates(),
-  ])
-    .then(([
-      templates,
-      translations,
-      languages,
-      userLang,
-      namespaces,
-      templatePaths,
-    ]) => {
-      res.render('admin/plugins/customize', {
-        version,
-        templates: templates.map((x) => ({
-          path: x.path,
-          json: escape(JSON.stringify(x)),
-          diff: escape(x.diff),
-        })),
-        translations,
-        languages: languages.map(({ code, name }) => ({
-          code,
-          name,
-          selected: code === userLang,
-        })),
-        namespaces: namespaces.map((name) => ({ name })),
-        templatePaths,
-      });
-    })
-    .catch((err) => next(err));
+  ]);
+  res.render('admin/plugins/customize', {
+    version,
+    templates: templates.map((x) => ({
+      path: x.path,
+      json: escape(JSON.stringify(x)),
+      diff: escape(x.diff),
+    })),
+    translations,
+    languages: languages.map(({ code, name }) => ({
+      code,
+      name,
+      selected: code === userLang,
+    })),
+    namespaces: namespaces.map((name) => ({ name })),
+    templatePaths,
+  });
 };
-const adminBuild: RequestHandler = (req, res, next): void => {
-  build().then(
-    () => res.send('OK'),
-    (err) => next(err)
-  );
+const adminBuild: RequestHandler = async (req, res) => {
+  await build();
+  formatApiResponse(200, res, 'OK');
 };
 
-const adminEditTranslation: RequestHandler = (req, res, next): void => {
+const adminEditTranslation: RequestHandler = async (req, res) => {
   const translation: Translation = req.body.translation;
 
-  db.editTranslation(translation)
-    .then(db.getTranslations)
-    .then((translations) => {
-      res.json({
-        translations,
-      });
-    })
-    .catch((err) => next(err));
+  await db.editTranslation(translation);
+  const translations = await db.getTranslations();
+  formatApiResponse(200, res, { translations });
 };
-const adminRemoveTranslation: RequestHandler = (req, res, next): void => {
-  db.removeTranslation(req.body.translation)
-    .then(db.getTranslations)
-    .then((translations) => {
-      res.json({
-        translations,
-      });
-    })
-    .catch((err) => next(err));
+const adminRemoveTranslation: RequestHandler = async (req, res) => {
+  await db.removeTranslation(req.body.translation);
+  const translations = await db.getTranslations();
+  formatApiResponse(200, res, { translations });
 };
 
-const adminEditTemplate: RequestHandler = (req, res, next): void => {
+const adminEditTemplate: RequestHandler = async (req, res) => {
   const template: Template = req.body.template;
 
-  db.editTemplate(template)
-    .then(db.getTemplates)
-    .then((templates) => {
-      res.json({
-        templates: templates.map((x) => ({
-          path: x.path,
-          json: escape(JSON.stringify(x)),
-          diff: escape(x.diff),
-        })),
-      });
-    })
-    .catch((err) => next(err));
+  await db.editTemplate(template);
+  const templates = await db.getTemplates();
+  formatApiResponse(200, res, {
+    templates: templates.map((x) => ({
+      path: x.path,
+      json: escape(JSON.stringify(x)),
+      diff: escape(x.diff),
+    })),
+  });
 };
-const adminRemoveTemplate: RequestHandler = (req, res, next): void => {
-  db.removeTemplate(req.body.template)
-    .then(db.getTemplates)
-    .then((templates) => {
-      res.json({
-        templates: templates.map((x) => ({
-          path: x.path,
-          json: escape(JSON.stringify(x)),
-          diff: escape(x.diff),
-        })),
-      });
-    })
-    .catch((err) => next(err));
+const adminRemoveTemplate: RequestHandler = async (req, res) => {
+  await db.removeTemplate(req.body.template);
+  const templates = await db.getTemplates();
+  formatApiResponse(200, res, {
+    templates: templates.map((x) => ({
+      path: x.path,
+      json: escape(JSON.stringify(x)),
+      diff: escape(x.diff),
+    })),
+  });
 };
 
 export default function controllers({ router, middleware }: AppParams): void {
-  router.get('/admin/plugins/customize', middleware.admin.buildHeader, renderAdmin);
-  router.get('/api/admin/plugins/customize', renderAdmin);
+  setupAdminPageRoute(router, '/admin/plugins/customize', middleware, [], renderAdmin);
 
-  router.post('/api/admin/plugins/customize/edit/template', adminEditTemplate);
-  router.post('/api/admin/plugins/customize/edit/translation', adminEditTranslation);
+  setupApiRoute(router, 'put', '/api/v3/admin/plugins/customize/edit/template', [middleware.admin.checkPrivileges], adminEditTemplate);
+  setupApiRoute(router, 'delete', '/api/v3/admin/plugins/customize/delete/template', [middleware.admin.checkPrivileges], adminRemoveTemplate);
 
-  router.delete('/api/admin/plugins/customize/delete/template', adminRemoveTemplate);
-  router.delete('/api/admin/plugins/customize/delete/translation', adminRemoveTranslation);
+  setupApiRoute(router, 'put', '/api/v3/admin/plugins/customize/edit/translation', [middleware.admin.checkPrivileges], adminEditTranslation);
+  setupApiRoute(router, 'delete', '/api/v3/admin/plugins/customize/delete/translation', [middleware.admin.checkPrivileges], adminRemoveTranslation);
 
-  router.post('/api/admin/plugins/customize/build', adminBuild);
+  setupApiRoute(router, 'put', '/api/v3/admin/plugins/customize/build', [middleware.admin.checkPrivileges], adminBuild);
 }

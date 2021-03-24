@@ -1,13 +1,12 @@
 import { Translator } from 'translator';
 import * as Benchpress from 'benchpress';
 import * as ace from 'ace/ace';
+import * as api from 'api';
 
 import {
   success,
   error,
   confirm,
-  requestDelete,
-  requestPost,
 } from './shared';
 
 const edit = {
@@ -88,7 +87,7 @@ interface TemplatesListResponse {
 }
 
 function removeTemplate(path: string): Promise<TemplatesListResponse> {
-  return requestDelete('/api/admin/plugins/customize/delete/template/', {
+  return api.del('/admin/plugins/customize/delete/template', {
     template: path,
   });
 }
@@ -195,10 +194,9 @@ function submit(): Promise<void> {
   };
 
   return before
-    .then(() => requestPost<{ template: Template }, TemplatesListResponse>(
-      '/api/admin/plugins/customize/edit/template',
-      { template: data }
-    ))
+    .then(() => api.put('/admin/plugins/customize/edit/template', {
+      template: data,
+    }))
     .then(updateList)
     .then(() => {
       edit.path.val('');
