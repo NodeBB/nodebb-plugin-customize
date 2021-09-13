@@ -25,7 +25,7 @@ const listLanguages: () => Promise<{
 const getSettings: (uid: number) => Promise<{ userLang: string }> = promisify(User.getSettings);
 const walk: (base: string) => string[] = promisify(File.walk);
 
-// eslint-disable-next-line import/no-dynamic-require
+// eslint-disable-next-line import/no-dynamic-require, @typescript-eslint/no-var-requires
 const version: string = require(join(__dirname, '../../package.json')).version;
 
 let namespaceCache: string[] = [];

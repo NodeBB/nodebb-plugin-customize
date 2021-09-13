@@ -2,6 +2,7 @@ declare type Callback<T = void> = (result: T) => void;
 
 interface Window {
   config: {
+    // eslint-disable-next-line camelcase
     relative_path: string;
     'cache-buster': string;
     userLang: string;

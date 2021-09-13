@@ -4,11 +4,7 @@
 [![Downloads](https://img.shields.io/npm/dm/nodebb-plugin-customize.svg)](https://www.npmjs.com/package/nodebb-plugin-customize)
 [![Dependency Status](https://david-dm.org/NodeBB-Community/nodebb-plugin-customize.svg)](https://david-dm.org/NodeBB/nodebb-plugin-customize)
 
-Customize the translated keys found throughout NodeBB's interface.
-
-#### TODO
-
-- Add template customization functionality
+Customize the language translations and templates used in NodeBB's interface.
 
 ## Installation
 

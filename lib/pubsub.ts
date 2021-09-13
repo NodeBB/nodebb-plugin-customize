@@ -1,6 +1,4 @@
 import { hostname } from 'os';
-
-
 import { build as buildAssets } from './build';
 
 if (!require.main) { throw Error('[plugin-customize] `require.main` is undefined'); }
