@@ -10,7 +10,7 @@ const primary = nconf.get('isPrimary') === 'true' || nconf.get('isPrimary') === 
 
 export async function build(): Promise<void> {
   pubsub.publish('customize:build', {
-    hostname: `hostname():${nconf.get('port')}`,
+    hostname: `${hostname()}:${nconf.get('port')}`,
   });
 
   if (primary) {
@@ -26,7 +26,7 @@ const logErrors = (err: Error): void => {
 
 if (primary) {
   pubsub.on('customize:build', (data: { hostname: string }) => {
-    if (data.hostname !== `hostname():${nconf.get('port')}`) {
+    if (data.hostname !== `${hostname()}:${nconf.get('port')}`) {
       buildAssets().catch(logErrors);
     }
   });
