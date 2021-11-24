@@ -44,6 +44,6 @@
   "scripts": {
     "lint": "eslint lib/* && eslint public/lib/*",
     "compile": "node copy-sources && tsc -p . && tsc -p public",
-    "prepare": "rm -r build; npm run compile"
+    "prepare": "rm -rf build; npm run compile"
   }
 }
