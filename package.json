@@ -1,6 +1,6 @@
 {
   "name": "nodebb-plugin-customize",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "description": "Customize NodeBB translations and templates",
   "main": "build/lib",
   "author": "Peter Jaszkowiak <p.jaszkow@gmail.com> (https://github.com/pitaj)",
@@ -10,7 +10,7 @@
     "url": "https://github.com/NodeBB/nodebb-plugin-customize.git"
   },
   "nbbpm": {
-    "compatibility": "~1.17 || ~1.18"
+    "compatibility": "~1.17 || ~1.18 || ~1.19"
   },
   "keywords": [
     "nodebb",
