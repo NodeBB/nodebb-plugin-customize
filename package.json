@@ -10,7 +10,7 @@
     "url": "https://github.com/NodeBB/nodebb-plugin-customize.git"
   },
   "nbbpm": {
-    "compatibility": "~1.17 || ~1.18 || ~1.19 || ^2.0.0"
+    "compatibility": "^3.0.0"
   },
   "keywords": [
     "nodebb",

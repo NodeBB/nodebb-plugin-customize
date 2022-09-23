@@ -1,15 +1,15 @@
 .translation {
   .editing {
-    background: @brand-info;
+    background: $info;
   }
 }
 
 #translation-edit {
   select {
-    width: 12rem;
+    width: 6rem;
   }
   textarea {
-    min-width: 30rem;
+    min-width: 15rem;
   }
 }
 
