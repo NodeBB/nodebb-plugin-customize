@@ -1,7 +1,7 @@
 {
   "library": "build/lib",
-  "acpLess": [
-    "public/style.less"
+  "acpScss": [
+    "public/style.scss"
   ],
   "modules": {
     "../admin/plugins/customize.js": "build/public/lib/index.js",

@@ -1,6 +1,6 @@
-<div class="panel panel-default">
-  <div class="panel-heading">
-    <h3 class="panel-title">Translation Customizations</h3>
+<div class="card">
+  <div class="card-header">
+    <h3 class="card-title">Translation Customizations</h3>
   </div>
   <table class="table">
     <thead>
@@ -54,9 +54,9 @@
   </table>
 </div>
 
-<div class="panel panel-default">
-  <div class="panel-heading">
-    <h3 class="panel-title">Template Customizations</h3>
+<div class="card">
+  <div class="card-header">
+    <h3 class="card-title">Template Customizations</h3>
   </div>
   <table class="table">
     <thead>
@@ -83,7 +83,7 @@
           <pre><code id="template-edit-diff"><!-- diff goes here --></code></pre>
         </td>
         <td>
-          <button class="btn btn-primary" id="template-edit-open" data-toggle="modal" data-target="#template-edit-modal"><i class="fa fa-fw fa-pencil"></i></a>
+          <button class="btn btn-primary" id="template-edit-open" data-bs-toggle="modal" data-bs-target="#template-edit-modal"><i class="fa fa-fw fa-pencil"></i></a>
           <button class="btn btn-success" id="template-edit-submit"><i class="fa fa-fw fa-check"></i></button>
         </td>
       </tr>
@@ -92,18 +92,18 @@
 </div>
 
 <div class="modal fade" id="template-edit-modal" tabindex="-1" role="dialog" aria-labelledby="template-edit-modal-label">
-  <div class="modal-dialog modal-lg" role="document">
+  <div class="modal-dialog modal-fullscreen" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title" id="template-edit-modal-label">Edit Template Customization</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true"></span></button>
       </div>
       <div class="modal-body row">
-        <div id="template-edit-old"></div>
-        <div id="template-edit-value"></div>
+        <div class="col-md" id="template-edit-old"></div>
+        <div class="col-md" id="template-edit-value"></div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Done</button>
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Done</button>
       </div>
     </div>
   </div>
@@ -111,8 +111,9 @@
 
 <button
   id="build"
-  class="floating-button mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored"
+  class="edit btn btn-primary position-fixed bottom-0 end-0 px-3 py-2 mb-4 me-4 rounded-circle fs-4"
+  type="button" style="width: 64px; height: 64px;"
   title="[[admin/plugins/customize:build_description]]"
 >
-	<i class="material-icons">build</i>
+  <i class="fa fa-fw fas fa-hammer"></i>
 </button>
