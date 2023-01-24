@@ -4,7 +4,7 @@
     "public/style.less"
   ],
   "modules": {
-    "../admin/plugins/customize.js": "build/public/lib/admin.js",
+    "../admin/plugins/customize.js": "build/public/lib/index.js",
     "diff.js": "node_modules/diff/dist/diff.js"
   },
   "defaultLang": "en-US",

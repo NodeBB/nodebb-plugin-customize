@@ -73,11 +73,11 @@ function updateOld(): Promise<void> {
 }
 
 $([edit.language[0], edit.namespace[0]])
-  .change(() => updateKeys().then(updateOld).catch(error));
+  .on('change', () => updateKeys().then(updateOld).catch(error));
 
-edit.key.change(() => updateOld().catch(error));
+edit.key.on('change', () => updateOld().catch(error));
 
-$(document).ready(() => updateKeys().then(updateOld).catch(error));
+$(() => updateKeys().then(updateOld).catch(error));
 
 interface TranslationsListResponse {
   translations: Translation[];
@@ -90,7 +90,7 @@ function removeTranslation(id: string): Promise<TranslationsListResponse> {
 }
 
 function updateList({ translations }: TranslationsListResponse): Promise<void> {
-  window.ajaxify.data.translations = translations;
+  ajaxify.data.translations = translations;
   edit.parent.data({
     template: null,
   });
@@ -184,7 +184,7 @@ function submit(): Promise<void> {
     }))
     .then(updateList)
     .then(() => {
-      edit.language.val(window.config.userLang);
+      edit.language.val(config.userLang);
       edit.namespace.val('');
       edit.key.val('');
       edit.old.text('');
@@ -195,4 +195,4 @@ function submit(): Promise<void> {
     });
 }
 
-edit.submit.click(() => submit().then(success, error));
+edit.submit.on('click', () => submit().then(success, error));

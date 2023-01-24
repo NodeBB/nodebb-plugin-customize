@@ -47,7 +47,7 @@ valueEditorSession.on('changeScrollLeft', (scroll) => {
   oldEditorSession.setScrollLeft(parseInt(scroll, 10) || 0);
 });
 
-edit.path.change(() => {
+edit.path.on('change', () => {
   edit.diff.text('');
 
   const path = edit.path.val() as string | null;
@@ -66,7 +66,7 @@ edit.path.change(() => {
 
     // get old template value
     Promise.resolve(
-      $.get(`${window.config.relative_path}/assets/templates/${path}`)
+      $.get(`${config.relative_path}/assets/templates/${path}`)
     )
       .then((old) => {
         edit.parent.data({
@@ -93,7 +93,7 @@ function removeTemplate(path: string): Promise<TemplatesListResponse> {
 }
 
 function updateList({ templates }: TemplatesListResponse): Promise<void> {
-  window.ajaxify.data.templates = templates;
+  ajaxify.data.templates = templates;
 
   return Benchpress.render('partials/admin/plugins/customize/templates-list', {
     templates,
@@ -145,7 +145,7 @@ list.on('click', '.edit', (e) => editEntry(
   $(e.target).closest('.template')
 ));
 
-edit.open.click(() => {
+edit.open.on('click', () => {
   const oldData: Template | null = edit.parent.data().template;
 
   if (oldData && oldData.old) {
@@ -207,4 +207,4 @@ function submit(): Promise<void> {
     });
 }
 
-edit.submit.click(() => submit().then(success, error));
+edit.submit.on('click', () => submit().then(success, error));

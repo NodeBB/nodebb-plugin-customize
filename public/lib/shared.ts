@@ -1,3 +1,6 @@
+import * as alerts from 'alerts';
+import * as bootbox from 'bootbox';
+
 export function setOptions(select: JQuery, options: {
   value: string;
   text: string;
@@ -13,16 +16,16 @@ export function setOptions(select: JQuery, options: {
 }
 
 export function success(): void {
-  window.app.alertSuccess();
+  alerts.success();
 }
 export function error(err: Error): void {
-  window.app.alertError(err);
+  alerts.error(err);
   setTimeout(() => { throw err; }, 0);
 }
 
 export function confirm(message: string): Promise<boolean> {
   return new Promise(
-    (resolve) => window.bootbox.confirm(message, resolve)
+    (resolve) => { bootbox.confirm(message, resolve); }
   );
 }
 

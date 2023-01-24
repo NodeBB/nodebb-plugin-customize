@@ -1,30 +1,30 @@
 declare type Callback<T = void> = (result: T) => void;
 
-interface Window {
-  config: {
-    // eslint-disable-next-line camelcase
-    relative_path: string;
-    'cache-buster': string;
-    userLang: string;
-  };
-  app: {
-    alertSuccess(message?: string): void;
-    alertError(message?: string): void;
-    alertError(error: Error): void;
-  };
-  utils: {
-    generateUUID(): string;
-  };
-  ajaxify: {
-    data: any;
-  };
-  bootbox: {
-    confirm: (message: string, callback: (yes: boolean) => void) => void;
-  };
-}
+declare const config: {
+  // eslint-disable-next-line camelcase
+  relative_path: string;
+  'cache-buster': string;
+  userLang: string;
+};
+declare const utils: {
+  generateUUID(): string;
+};
+declare const ajaxify: {
+  data: any;
+};
 
 interface String {
   startsWith(str: string): boolean;
+}
+
+declare module 'alerts' {
+  function success(message?: string): void;
+  function error(message?: string): void;
+  function error(err: Error): void;
+}
+
+declare module 'bootbox' {
+  export const confirm: (message: string, callback: (yes: boolean) => void) => void;
 }
 
 declare module 'translator' {
