@@ -137,7 +137,7 @@ const adminRemoveTemplate: RequestHandler = async (req, res) => {
 };
 
 export default function controllers({ router, middleware }: AppParams): void {
-  setupAdminPageRoute(router, '/admin/plugins/customize', middleware, [], renderAdmin);
+  setupAdminPageRoute(router, '/admin/plugins/customize', renderAdmin);
 
   setupApiRoute(router, 'put', '/api/v3/admin/plugins/customize/edit/template', [middleware.admin.checkPrivileges], adminEditTemplate);
   setupApiRoute(router, 'delete', '/api/v3/admin/plugins/customize/delete/template', [middleware.admin.checkPrivileges], adminRemoveTemplate);
