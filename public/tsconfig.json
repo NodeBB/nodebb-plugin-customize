@@ -13,6 +13,7 @@
     "sourceMap": true,
     "alwaysStrict": true,
     "esModuleInterop": true,
+    "moduleResolution": "node",
     "types": [
       "jquery",
       "bootstrap",

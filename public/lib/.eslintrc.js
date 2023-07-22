@@ -3,7 +3,6 @@ module.exports = {
     browser: true,
   },
   globals: {
-    '$': true,
+    $: true,
   },
 };
-  

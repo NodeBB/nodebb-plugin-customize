@@ -10,7 +10,7 @@ module.exports = {
       objects: 'always-multiline',
       imports: 'always-multiline',
       exports: 'always-multiline',
-      functions: 'never'
+      functions: 'never',
     }],
     'import/no-unresolved': 'off',
     'import/prefer-default-export': 'off',
@@ -20,9 +20,9 @@ module.exports = {
     'object-curly-newline': ['error', {
       multiline: true,
       minProperties: 5,
-      consistent: true
+      consistent: true,
     }],
     '@typescript-eslint/indent': ['error', 2],
-    '@typescript-eslint/explicit-function-return-type': 'off'
+    '@typescript-eslint/explicit-function-return-type': 'off',
   },
 };
