@@ -80,7 +80,7 @@
           </select>
         </td>
         <td>
-          <pre><code id="template-edit-diff"><!-- diff goes here --></code></pre>
+          <pre class="diff-preview"><code id="template-edit-diff"><!-- diff goes here --></code></pre>
         </td>
         <td>
           <button class="btn btn-primary" id="template-edit-open" data-bs-toggle="modal" data-bs-target="#template-edit-modal"><i class="fa fa-fw fa-pencil"></i></a>
