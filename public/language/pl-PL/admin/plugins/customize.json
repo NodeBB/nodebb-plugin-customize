@@ -1,0 +1,5 @@
+{
+  "build": "Przygotuj zmiany",
+  "build_description": "Odbędzie się kompilacja plików statycznych z metadanymi",
+  "build_success": "Skorzystaj z opcji przebuduj i zrestartuj aby zobaczyć zmiany"
+}
