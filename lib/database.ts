@@ -97,6 +97,14 @@ interface TemplateHash {
   old: string;
 }
 
+const PATCH_FAILED_NOTICE = `
+<!--
+Attention: PATCH FAILED
+To fix this, you will need to delete this customization
+and then recreate it manually.
+-->
+`;
+
 export async function getTemplates(): Promise<Template[]> {
   const paths = await getSortedSetRange(templatesSet, 0, -1);
   const [hashes, currentValues]: [TemplateHash[], string[]] = await Promise.all([
@@ -107,11 +115,22 @@ export async function getTemplates(): Promise<Template[]> {
     })),
   ]);
 
-  return currentValues.map((current, i) => ({
-    ...hashes[i],
-    path: paths[i],
-    value: applyPatch(hashes[i].old, hashes[i].diff),
-  }));
+  return currentValues.map((current, i) => {
+    const patched = applyPatch(hashes[i].old, hashes[i].diff);
+    if (patched === false) {
+      return {
+        ...hashes[i],
+        path: paths[i],
+        value: PATCH_FAILED_NOTICE + hashes[i].old,
+      };
+    }
+
+    return {
+      ...hashes[i],
+      path: paths[i],
+      value: patched as string,
+    };
+  });
 }
 
 export async function editTemplate({
