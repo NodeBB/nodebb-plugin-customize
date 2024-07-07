@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 declare type Callback<T = void> = (result: T) => void;
 
 declare const config: {

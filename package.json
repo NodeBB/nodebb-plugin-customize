@@ -20,26 +20,26 @@
     "template"
   ],
   "dependencies": {
-    "diff": "^5.1.0",
-    "fs-extra": "^11.1.1",
+    "diff": "^5.2.0",
+    "fs-extra": "^11.2.0",
     "lodash": "^4.17.21"
   },
   "devDependencies": {
     "@types/ace": "^0.0.48",
-    "@types/bootstrap": "^5.2.6",
-    "@types/diff": "^5.0.3",
-    "@types/express": "^4.17.17",
-    "@types/fs-extra": "^11.0.1",
-    "@types/jquery": "^3.5.16",
-    "@types/lodash": "^4.14.195",
-    "@types/nconf": "^0.10.3",
-    "@types/node": "^20.4.3",
-    "@typescript-eslint/eslint-plugin": "^6.1.0",
-    "@typescript-eslint/parser": "^6.1.0",
-    "eslint": "^8.45.0",
+    "@types/bootstrap": "^5.2.10",
+    "@types/diff": "^5.2.1",
+    "@types/express": "^4.17.21",
+    "@types/fs-extra": "^11.0.4",
+    "@types/jquery": "^3.5.30",
+    "@types/lodash": "^4.17.6",
+    "@types/nconf": "^0.10.6",
+    "@types/node": "^20.14.9",
+    "@typescript-eslint/eslint-plugin": "^7.14.1",
+    "@typescript-eslint/parser": "^7.14.1",
+    "eslint": "^8.57.0",
     "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-plugin-import": "^2.27.5",
-    "typescript": "^5.1.6"
+    "eslint-plugin-import": "^2.29.1",
+    "typescript": "^5.5.2"
   },
   "scripts": {
     "lint": "eslint lib/* && eslint public/lib/*",
