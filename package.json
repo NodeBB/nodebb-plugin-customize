@@ -1,6 +1,6 @@
 {
   "name": "nodebb-plugin-customize",
-  "version": "4.0.2",
+  "version": "4.0.3",
   "description": "Customize NodeBB translations and templates",
   "main": "build/lib",
   "author": "Peter Jaszkowiak <p.jaszkow@gmail.com> (https://github.com/pitaj)",
