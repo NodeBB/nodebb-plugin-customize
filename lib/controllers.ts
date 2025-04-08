@@ -77,6 +77,7 @@ const renderAdmin: RequestHandler = async (req, res) => {
     listTemplates(),
   ]);
   res.render('admin/plugins/customize', {
+    title: 'Customize',
     version,
     templates: templates.map((x) => ({
       path: x.path,
