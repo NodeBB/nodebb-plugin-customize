@@ -5,9 +5,8 @@ import { join } from 'path';
 import { readJson, readFile } from 'fs-extra';
 import { applyPatch } from 'diff';
 
-if (!require.main) { throw Error('[plugin-customize] `require.main` is undefined'); }
-const db = require.main.require('./src/database');
-const nconf = require.main.require('nconf');
+const db = nodebb.require('./src/database');
+const nconf = nodebb.require('nconf');
 
 const getSortedSetRange: (
   key: string,

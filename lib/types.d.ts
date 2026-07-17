@@ -1,6 +1,12 @@
 import { Router, RequestHandler } from 'express';
 
 declare global {
+  interface NodeBBGlobal {
+    require<T = any>(request: string): T;
+  }
+
+  const nodebb: NodeBBGlobal;
+
   type NodeBack<T> = (err?: Error | null, ...args: T[]) => void;
 
   namespace Express {

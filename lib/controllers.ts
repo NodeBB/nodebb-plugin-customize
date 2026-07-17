@@ -6,15 +6,14 @@ import { readJson } from 'fs-extra';
 import { build } from './pubsub';
 import * as db from './database';
 
-if (!require.main) { throw Error('[plugin-customize] `require.main` is undefined'); }
-const nconf = require.main.require('nconf');
-const User = require.main.require('./src/user');
-const Languages = require.main.require('./src/languages');
-const File = require.main.require('./src/file');
-const Translator = require.main.require('./src/translator');
-const Utils = require.main.require('./src/utils');
-const { setupApiRoute, setupAdminPageRoute } = require.main.require('./src/routes/helpers');
-const { formatApiResponse } = require.main.require('./src/controllers/helpers');
+const nconf = nodebb.require('nconf');
+const User = nodebb.require('./src/user');
+const Languages = nodebb.require('./src/languages');
+const File = nodebb.require('./src/file');
+const Translator = nodebb.require('./src/translator');
+const Utils = nodebb.require('./src/utils');
+const { setupApiRoute, setupAdminPageRoute } = nodebb.require('./src/routes/helpers');
+const { formatApiResponse } = nodebb.require('./src/controllers/helpers');
 
 const escape = (dirty: string): string => Translator.escape(Utils.escapeHTML(dirty));
 
