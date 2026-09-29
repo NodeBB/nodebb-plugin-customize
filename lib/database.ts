@@ -1,7 +1,7 @@
 // types and helper functions for database
 
 import { promisify } from 'util';
-import { join } from 'path';
+import { join, resolve, sep } from 'path';
 import { readJson, readFile } from 'fs-extra';
 import { applyPatch } from 'diff';
 
@@ -132,11 +132,19 @@ export async function getTemplates(): Promise<Template[]> {
   });
 }
 
+function assertPathWithinViews(path: string): void {
+  const resolved = resolve(viewsDir, path);
+  if (resolved !== viewsDir && !resolved.startsWith(viewsDir + sep)) {
+    throw new Error('[[error:invalid-path]]');
+  }
+}
+
 export async function editTemplate({
   path,
   diff,
   old,
 }: Template): Promise<void> {
+  assertPathWithinViews(path);
   await Promise.all([
     setObject<TemplateHash>(templateHashKey(path), {
       path,
